@@ -34,7 +34,7 @@ book
   price
 ```
 
-This decouples stores with what they carry. We now have 1 book object that can be referenced from multiple stores. This is useful when you are lacking in space (because you don't repeat books). It is also useful when the object being shared changes often (as we'll see in a minute). 
+This decouples stores with what they carry. We now have 1 book object that can be referenced from multiple stores. This is useful when you are lacking in space (because you don't repeat books). It is also useful when the object being shared changes often. Imagine that this bookstore based the price of their books on the Amazon.com price of the book (which fluctuates constantly). Now every time the price of the book changes you have to make only one change to one object, and the next time a store looks up the book it will see the updated price.
 
 **Embedding**
 Embedding is when you store a Mongo document inside of another Mongo document. This is the default way to do things in Mongo, and is the most obvious. Instead of creating two collections for your bookstore, you'll just have one bookstore collection that has a list of every book inside of the bookstore.
@@ -48,7 +48,9 @@ bookstore
     price
 ```
 
-This will lead you to repeat books across bookstores (but who cares because space is cheap). It will also mean that if you want to change the price of a book across all bookstores you have to go through each bookstore, search for the book, then change the attribute of the book. This isn't too bad if the book changes price very rarely, or if there are only a few stores which stock the book, however it can become a problem if these conditions are not met. 
+This will lead you to repeat books across bookstores (but who cares because space is cheap). However, it will also mean that if you want to change the price of a book across all bookstores you have to go through each bookstore, search for the book, then change the attribute of the book. This isn't too bad if the book changes price very rarely, or if there are only a few stores which stock the book. However, if we think back to the Amazon.com example, if the price of the book changes every hour, and you have 1000 bookstores which stock the book. That means you have to go update 1000 objects every hour, compared to 1 per hour if you had used referencing. This becomes an even bigger problem when you're a product like Twitter and your "bookstores" are users and books are people those users follow. Let's say you want to update information about the book "Lady Gaga", which is stocked by 33 million "bookstores". This would be nearly impossible with embedded data, but is a cynch with references.
+
+In the end which way you use (reference or embedding) depends what your data access patterns will be like. You'll likely be using embeds 80% of the time, but references also have their place, so know how to do both. 
 
 The Mongo documentation has further details about [when to embed vs reference](http://docs.mongodb.org/manual/core/data-modeling/).
 
