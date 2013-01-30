@@ -61,9 +61,12 @@ Great news! We started shopping around your last two homeworks (hope you don't m
 
 Your application will need the following http endpoints:
 * `/ingredient/new` => shows a form that allows someone to add a new ingredient into the system. An ingredient object consists of an ingredient name and a cost, for example {ingredient: cheese, cost:2}. 
+ 
 * `/order/new` => shows a form which will allow customers to create a new burger. There should be a checklist of all available ingredients and a "submit order" button. Clicking on the "submit order" button should submit the customer's order WITHOUT refreshing the page. i.e., with an [AJAX $.post request](http://api.jquery.com/jQuery.post/). 
+
 * `/orders` will show a list of all the pending orders. There should be a "completed" button beside each order that does another $.post request to your server and completes the order. Clicking this button should also remove this order from the list of orders in the browser (again, without refreshing the page).
-* Deploy your application to heroku and add your hame to the [Homework 3 sheet](https://docs.google.com/spreadsheet/ccc?key=0AjqGw-pw5UuudFhQSmJhZlRZWEhRTWcwYmxBVld6c1E#gid=3)
+
+Deploy your application to heroku and add your hame to the [Homework 3 sheet](https://docs.google.com/spreadsheet/ccc?key=0AjqGw-pw5UuudFhQSmJhZlRZWEhRTWcwYmxBVld6c1E#gid=3)
 
 ## A tutorial to you get you started on the first endpoint (you should probably read this).
 
@@ -165,6 +168,19 @@ So now that you're all warmed up from making the new ingredient page, it shouldn
 
 For this page you're likely going to want to check out the `input(type=checkbox)` tag. Then in order to make a customer's order submit without refreshing use [jQuery post](http://api.jquery.com/jQuery.post/). Receiving the post data from jQuery is the same on the server side as when receiving a form submission. The main difference on the server side is that you will need to send back JSON data as a response, instead of html. Luckily, express automatically converts javascript arrays and objects to JSON. So you can just call `res.send(["some","data","here",{cool:"man"})` and express will convert the array into JSON and send it to the client. If you don't know what JSON is, it's a way of organizing data, similar to a hash or python dictionary in structure, which is good for sending information of networks. You can read about it [here](http://www.json.org/). In the end though, you don't need to know too much about it. Express will take care of converting javascript stuff into JSON on the serverside, then jQuery will take care of converting the JSON received from your sever back into javascript objects and arrays.
 
+This route will need take care of saving orders to the DB. If you read the mongoose reading at the beginning of this homework then you should know something about embedded vs. referenced objects in a DB. Here you are going to be using references. So you will be making a new model called `order` which will have references to many `ingredients`. You declare this using a schema which looks like this:
+
+```
+var orderSchema = new Schema({
+  customerName    : String,
+  ingredients : [{ type: Schema.Types.ObjectId, ref: 'Ingredient' }]
+});
+```
+
+to learn how assign and access referenced objects read the documentation [here](http://mongoosejs.com/docs/populate.html). 
+
+**`/order/new`
+
+For this page you will need to again use jQuery post to send a request to the server, whenever a order is "completed". There will also need to be some clientside jQuery which removes the completed order from the list of orders in the browser. jQuery remove will probably be useful. 
 
 
-http://mongoosejs.com/docs/populate.html
