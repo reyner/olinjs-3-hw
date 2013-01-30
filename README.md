@@ -86,7 +86,7 @@ First, we're gonna need to make a new express app, add all our dependencies to o
 
 Alright, so we're done with setup, let's make our first route. This route is going to take requests to `/ingredient/new` and route them to a function which renders the new ingredient page. So we're gonna want something like `app.get('/ingredient/new', ingredient.new);` in our app.js. Now I know what your thinking, "But normally we just put a function there, what is this ingredient.new thing?". Ingredient.new is a function, we just haven't defined it yet. In the past we've put all our routing methods right in app.js, so we had things like `app.get('/cats', function(){something...}). However, when you start making bigger websites this can get messy. Imagine if you had to scroll through 100 different routing functions in app.js, to find the one your want to edit. That would suck yea? So from now we're gonna be putting routing functions in the handy routes folder which express makes for us.
 
-So let's go ahead and define `ingredient.new`. To do this, add a require at the top of app.js (where all the require are), which assigns a new variable `ingredient` to equal `require("./routes/ingredient"). Now go ahead and save this file. If you're running supervisor (which you should be) then you see this error spit out in your server terminal.
+So let's go ahead and define `ingredient.new`. To do this, add a require at the top of app.js (where all the requires are), which assigns a new variable `ingredient` to equal `require("./routes/ingredient")`. Now go ahead and save this file. If you're running supervisor (which you should be) then you should see this error in your server terminal.
 
 ```
 Cannot find module './routes/ingredient'
