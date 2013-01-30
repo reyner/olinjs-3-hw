@@ -76,3 +76,12 @@ So what are we looking for here? Basically something simple, like this:
 
 ![ingredient form](https://github.com/olinjs/olinjs-3-hw/blob/master/Screen%20Shot%202013-01-29%20at%2010.42.09%20PM.png?raw=true)
 
+into which you can enter a food name, such as "alfalfa" and a reasonble cost (forget units for now) like "12". Then when you hit submit the data entered should be posted to the server and the use should be redirected to a simple page which looks like this
+
+![sucess!](https://github.com/olinjs/olinjs-3-hw/blob/master/Screen%20Shot%202013-01-29%20at%2010.42.43%20PM.png?raw=true)
+
+with some sort of congradulatory statement. Simple yea? Cool, lets see how we're gonna make this.
+
+First, we're gonna need to make a new express app, add all our dependencies to our package.json, and npm install (see the other homeworks if you forget how to do all this). Don't forget to add Mongoose as a dependency. Next, we're gonna start up our server, using `supervisor app`. Supervisor is that swank program we introduced in the last class which auto restarts your server whenever you change a file. Make sure it's installed globally (`npm install -g supervisor`), and use it from now on to run your server.
+
+Alright, so we're done with setup, let's make our first route. This route is going to take requests to `/ingredient/new` and route them to a function we're gonna call `ingredient.new`.
