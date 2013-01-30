@@ -74,5 +74,5 @@ So this should probably be the first endpoint you make, as all your other endpoi
 So what are we looking for here? Basically something simple, like this:
 
 
-
+![ingredient form](https://github.com/olinjs/olinjs-3-hw/blob/master/Screen%20Shot%202013-01-29%20at%2010.42.09%20PM.png?raw=true)
 
