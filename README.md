@@ -69,6 +69,10 @@ Your application will need the following http endpoints:
 
 `/ingredient/new`
 
-So this should probably be the first enpoint you make, as all your other endpoints rely on the data which this endpoint create.
+So this should probably be the first endpoint you make, as all your other endpoints rely on the data which this endpoint creates.
+
+So what are we looking for here? Basically something simple, like this:
+
+
 
 
