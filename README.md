@@ -156,3 +156,15 @@ Now whenever you require this file the Ingredient model will be available for us
 So now go back to your ingredient.js file and require models.js. If you put models.js within the parent folder for your app then you will need to `require(../models)`.  The `..` indicates the Node should look up one directory to find the file. Assign the required file to a variable, say, `models`. Now create a new var called `Ingredient`, outside of all your functions, and assign to it `models.Ingredient`. Now you should be able to use Ingredient as a model, the same way you did with the Cat model in the last assignment. Use this model to save the post data you receive in the create method to your DB, the same way we did before. 
 
 Once you're able to save ingredients to the database you are done with the first route for this HW. 
+
+## Some Notes for the next two endpoints
+
+So now that you're all warmed up from making the new ingredient page, it shouldn't be too hard to get through the next two endpoints. However, here are a few notes to help you on your way:
+
+**`/order/new`
+
+For this page you're likely going to want to check out the `input(type=checkbox)` tag. Then in order to make a customer's order submit without refreshing use [jQuery post](http://api.jquery.com/jQuery.post/). Receiving the post data from jQuery is the same on the server side as when receiving a form submission. The main difference on the server side is that you will need to send back JSON data as a response, instead of html. Luckily, express automatically converts javascript arrays and objects to JSON. So you can just call `res.send(["some","data","here",{cool:"man"})` and express will convert the array into JSON and send it to the client. If you don't know what JSON is, it's a way of organizing data, similar to a hash or python dictionary in structure, which is good for sending information of networks. You can read about it [here](http://www.json.org/). In the end though, you don't need to know too much about it. Express will take care of converting javascript stuff into JSON on the serverside, then jQuery will take care of converting the JSON received from your sever back into javascript objects and arrays.
+
+
+
+http://mongoosejs.com/docs/populate.html
