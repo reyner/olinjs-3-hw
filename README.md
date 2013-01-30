@@ -49,6 +49,7 @@ bookstore
 ```
 
 This will lead you to repeat books across bookstores (but who cares because space is cheap). However, it will also mean that if you want to change the price of a book across all bookstores you have to go through each bookstore, search for the book, then change the attribute of the book. This isn't too bad if the book changes price very rarely, or if there are only a few stores which stock the book. However, if we think back to the Amazon.com example, if the price of the book changes every hour, and you have 1000 bookstores which stock the book. That means you have to go update 1000 objects every hour, compared to 1 per hour if you had used referencing. This becomes an even bigger problem when you're a product like Twitter and your "bookstores" are users and books are people those users follow. Let's say you want to update information about the book "Lady Gaga", which is stocked by 33 million "bookstores". This would be nearly impossible with embedded data, but is a cynch with references.
+![Gaga servers](http://farm6.staticflickr.com/5310/5661097249_36421203bd_z.jpg)
 
 In the end which way you use (reference or embedding) depends what your data access patterns will be like. You'll likely be using embeds 80% of the time, but references also have their place, so know how to do both. 
 
