@@ -34,7 +34,7 @@ book
   price
 ```
 
-This decouples stores with what they carry. We now have 1 book object that can be referenced from multiple stores. This is useful when you are lacking in space (because you don't repeat books). 
+This decouples stores with what they carry. We now have 1 book object that can be referenced from multiple stores. This is useful when you are lacking in space (because you don't repeat books). It is also useful when the object being shared changes often (as we'll see in a minute). 
 
 **Embedding**
 Embedding is when you store a Mongo document inside of another Mongo document. This is the default way to do things in Mongo, and is the most obvious. Instead of creating two collections for your bookstore, you'll just have one bookstore collection that has a list of every book inside of the bookstore.
@@ -48,7 +48,7 @@ bookstore
     price
 ```
 
-This will lead you to repeat books across bookstores, but who cares because space is cheap. In general you want to use embedding in Mongo.
+This will lead you to repeat books across bookstores (but who cares because space is cheap). It will also mean that if you want to change the price of a book across all bookstores you have to go through each bookstore, search for the book, then change the attribute of the book. This isn't too bad if the book changes price very rarely, or if there are only a few stores which stock the book, however it can become a problem if these conditions are not met. 
 
 The Mongo documentation has further details about [when to embed vs reference](http://docs.mongodb.org/manual/core/data-modeling/).
 
