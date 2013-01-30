@@ -65,3 +65,5 @@ Your application will need the following http endpoints:
 * `/orders` will show a list of all the pending orders. There should be a "completed" button beside each order that does another $.post request to your server and completes the order. Clicking this button should also remove this order from the list of orders in the browser (again, without refreshing the page).
 * Deploy your application to heroku and add your hame to the [Homework 3 sheet](https://docs.google.com/spreadsheet/ccc?key=0AjqGw-pw5UuudFhQSmJhZlRZWEhRTWcwYmxBVld6c1E#gid=3)
 
+## Some Help (if you need it)
+
