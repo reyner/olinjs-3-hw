@@ -84,4 +84,75 @@ with some sort of congradulatory statement. Simple yea? Cool, lets see how we're
 
 First, we're gonna need to make a new express app, add all our dependencies to our package.json, and npm install (see the other homeworks if you forget how to do all this). Don't forget to add Mongoose as a dependency. Next, we're gonna start up our server, using `supervisor app`. Supervisor is that swank program we introduced in the last class which auto restarts your server whenever you change a file. Make sure it's installed globally (`npm install -g supervisor`), and use it from now on to run your server.
 
-Alright, so we're done with setup, let's make our first route. This route is going to take requests to `/ingredient/new` and route them to a function we're gonna call `ingredient.new`.
+Alright, so we're done with setup, let's make our first route. This route is going to take requests to `/ingredient/new` and route them to a function which renders the new ingredient page. So we're gonna want something like `app.get('/ingredient/new', ingredient.new);` in our app.js. Now I know what your thinking, "But normally we just put a function there, what is this ingredient.new thing?". Ingredient.new is a function, we just haven't defined it yet. In the past we've put all our routing methods right in app.js, so we had things like `app.get('/cats', function(){something...}). However, when you start making bigger websites this can get messy. Imagine if you had to scroll through 100 different routing functions in app.js, to find the one your want to edit. That would suck yea? So from now we're gonna be putting routing functions in the handy routes folder which express makes for us.
+
+So let's go ahead and define `ingredient.new`. To do this, add a require at the top of app.js (where all the require are), which assigns a new variable `ingredient` to equal `require("./routes/ingredient"). Now go ahead and save this file. If you're running supervisor (which you should be) then you see this error spit out in your server terminal.
+
+```
+Cannot find module './routes/ingredient'
+```
+
+Cool, yep that error makes sense. Node can't find the module, because we haven't created it yet. So now lets go ahead and create this module, which will contain the function for rendering the new ingredient form. Just make a new file in the routes folder, and call it `ingredient.js`. Then add a stub for the function we are trying to create:
+
+```
+exports.new = function(req, res){
+  console.log("hey thar");
+  res.send("hey thar");
+};
+```
+
+Save the file, and go check the supervisor output. If all is well you should see
+
+```
+Express server listening on port 3000
+```
+
+Otherwise, if you still see errors, try to track those errors down. If you can't find the error try restarting supervisor, sometimes supervisor gets behind and stops restarting the server, which can make it seem like you have errors when you don't.
+
+So now if you hit 'localhost:3000/ingredient/new' you should see "hey thar". Cool, looks like all our plumbing is working, so now we need to render our new ingredient form. So first lets change our `res.send` in our new method to a `res.render(\<jade template name\>,{})`. This will, if you remember, render the given jade template, and pass it no variables to render (seen by the empty brackets). Now I'm gonna let you make the Jade file yourself, but you need to put it in the views folder, and it should probably have the following types of tags:
+
+```
+form
+input 
+submit
+```
+
+Play around with these tags until you have something which kind of looks like the picture we started with. Once you're set, there a few things you'll need to do to the form you've made, in order to get it ready for posting. First, you need to set the action and method attibrutes of the form. The action attribute specifies where the form will be sent to, and the method specifies whether the form will submit as a GET, POST, PUT, DELETE or some other kind of HTTP method. We're gonna want our action to be "/ingredient/create", which is a new method we will create which adds new ingredients to our DB. We're gonna want our method to be POST. Assigning tags methods in Jade is pretty simple, just put parentheses next to the tag and inside define your attributes. For example:
+
+```
+form(action="/bankity/boop", method=MADNESS)
+```
+
+Don't forget the comma when defining attributes, it will break jade in a very ambiguous and hard to debug way.
+
+So, now that we have our form all set and ready to go, lets give it a whirr. Enter something into the ingredient name and cost field, then hit submit. You should get an error on the page which says that the route doens't exist. Well, I think our next step is clear.
+
+Go back to app.js and add a new route which takes posts to `/ingredient/create` and routes them to `ingredient.create`. In express routing a post is pretty simple, it's basically like routing a get:
+
+```
+app.post("/path/to/route", function.toRouteTo);
+```
+
+Once that route is defined go back to your ingredient.js file and make the ingredient.create method. Put a `console.log()` in it and send back a simple response, just so you can make sure all the piping is working again. Hit the submit button again and you should this time see the simple response you send back from the create method. Good, so the server is getting the post you're sending, now lets actually do something with the post information. 
+
+To get the data from a POST, just call `req.body.\<name of attribute\>`. Where \<name of attribute\> is the name attribute which is assigned in the form doing the posting. We haven't actually assigned names to our inputs yet, so if you `console.log(req.body)` right now you'll actually just see an empty hash (`{}`). So go back to your new ingredient jade file and add a name to each input tag. You do this the same way you added the method and action attibrutes to the form tag, just `input(someAttibrute=someValue)`. If you want to check to make sure the name attributes are appearing correctly, right click the input in chrome and say "inspect element". You should then be able to see all the attibrutes the input has. if `name=something` isn't then your jade is probably messed up. Once you've assigned names, you should be able to `console.log(request.body) and see your POST submissions. Now you just need to grab the data out of request.body, and actually do stuff with it, namely, save it in your database.
+
+Now let's set up our schemas and models for this app. Following the trend we established earlier of not putting everything in app.js, we're gonna put all our schema/model declarations in their own file. So, make a new file called models.js. Put all your database setup stuff in this file. So first, `require('mongoose')` then connect to mongo using the following command:
+
+```
+mongoose.connect('mongodb://localhost/burgers')
+```
+
+This command might be new for you. In the past we usually left it out. It just says that we're going to be storing all our date in the "burgers" database, which it creates automatically if it doesn't already exist. If you don't include the connect command then mongo will just connect to the admin database by default, and store all your stuff there. However, to avoid weird data contamination issues, you should always make a new DB for each app. 
+
+Now add a schema for an ingredient. Every ingredient should have a name and a cost. Make this schema into a model, then export the model using the command:
+
+```
+exports.Ingredient = \<ingredient model\>
+```
+
+Now when you require this file the Ingredient model will be available for use.
+
+Next, go back to your ingredient.js file and require the models.js. If you put models.js within the parent folder for your app then you will need to `require(../models)`.  The `..` indicates the Node should look up one directory to find the file. Assign the required file to a variable, say, `models`. Now create a new var called `Ingredient`, outside of all your functions, and assign to it `models.Ingredient`. Now you should be able to use Ingredient as a model, the same way you did with the Cat model in the last assignment. Use this model to save the post data you receive in the create method to your DB, the same way we did in the last assignment. 
+
+Once you're able to save ingredients to the database you are done with the first route for this HW. 
