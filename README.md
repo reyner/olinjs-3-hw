@@ -162,7 +162,7 @@ Once you're able to save ingredients to the database you are done with the first
 
 ## Some Notes for the next two endpoints
 
-So now that you're all warmed up from making the new ingredient page, it shouldn't be too hard to get through the next two endpoints. However, here are a few notes to help you on your way:
+Now that you're all warmed up from making the new ingredient page, it shouldn't be too hard to get through the next two endpoints. However, here are a few notes to help you on your way:
 
 **`/order/new`
 
