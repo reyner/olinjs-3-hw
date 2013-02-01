@@ -1,12 +1,19 @@
 extends layout
 
 block content
-  h1 Ingredients
+  h1 Orders
   a(href="/order/new") New order
   p List of Orders
   div
     each order, i in orders
-      div(value=order)
-      	| Order for
-      	b #{order.customer}
-      	| with #{order.ingredients} - $#{order.cost}
+      form(method='post', action='/orders/destroy', class="destroyOrder")
+        div
+          | Order for 
+          b #{order.customer}
+          |  with
+          each ingredient, j in order.ingredients
+            |  #{ingredient.name},
+          |   
+          input(type="hidden", name="oid", value="#{order._id}")
+          button('type='submit')
+            | Completed

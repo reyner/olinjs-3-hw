@@ -3,15 +3,20 @@ extends layout
 block content
   h1= title
 
-  form(method='post', action='/order/create', id="newform")
+  form(method='post', action='/order/create', id="neworderform")
     | What do you want?
     br
     each ingredient, i in ingredients
-      input(type='checkbox', name='#{ingredient.name}')
-      | #{ingredient.name} ...... $#{ingredient.cost}
+      input(type='checkbox', name='ingredient', value='#{ingredient._id}')
+      |  #{ingredient.name} ...... $#{ingredient.cost}
       br
     br
     | What is your name? 
-    input(name='cost', id="costinput")
+    input(name='name', id="nameinput")
     button('type='submit')
       | Done
+  br
+  h2(id="success", style="display: none")
+    | Success. 
+    a(href='/orders')
+      | Go to order list.

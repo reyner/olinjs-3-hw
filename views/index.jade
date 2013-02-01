@@ -3,3 +3,11 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  a(href="/ingredient/new")
+    | New ingredient
+  br
+  a(href="/order/new")
+    | New order
+  br
+  a(href="/orders")
+    | Orders
