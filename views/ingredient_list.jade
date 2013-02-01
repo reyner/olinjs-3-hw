@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Ingredients
+  a(href="/ingredient/new") New
+  p List of Ingredients
+  div
+    each ingredient, i in ingredients
+      div(value=ingredient) #{ingredient.cost} #{ingredient.name}

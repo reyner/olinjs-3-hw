@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='post', action='/order/create', id="newform")
+    | What do you want?
+    br
+    each ingredient, i in ingredients
+      input(type='checkbox', name='#{ingredient.name}')
+      | #{ingredient.name} ...... $#{ingredient.cost}
+      br
+    br
+    | What is your name? 
+    input(name='cost', id="costinput")
+    button('type='submit')
+      | Done
